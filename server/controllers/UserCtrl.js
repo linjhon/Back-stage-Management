@@ -93,3 +93,15 @@ exports.update = function (req, res, next) {
         res.json(data);
     })
 }
+
+exports.login = function (req, res, next) {    
+    // var name= req.body.name;
+    User.find(req.body).then(data=>{
+        console.log(data.length)
+        if(data.length>0){
+            res.json({login:'ok',code:'200'})
+        }else{
+            res.json({login:'error',code:'100'})
+        }
+    })
+}
