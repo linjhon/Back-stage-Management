@@ -17,6 +17,8 @@
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {
+    "cors": "^2.8.3",
+    "mongoose-materialized": "^0.1.9",
     "supervisor": "^0.12.0"
   }
 }

@@ -12,7 +12,10 @@ $ npm i
 
 
 ## 服务端server
+
+### 初始化
 ```
 $ cd server
 $ npm i
 ```
+

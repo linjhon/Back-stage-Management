@@ -25,10 +25,19 @@ module.exports = {
         }
       },
       {
-        test:/\.css$/,
+        test:/\.(css)$/,
         loader:'style-loader!css-loader'
       }
       ,
+      {
+        test:/\.(less)$/,
+        loader:'style-loader!css-loader!less-loader'
+      }
+      ,{
+				// 匹配字体文件;打包到dist文件下
+				test: /\.(woff|woff2|svg|eot|ttf)$/, //
+				loader: 'file-loader?name=./fonts/[name].[ext]'
+			},
       {
         test: /\.js$/,
         loader: 'babel-loader',
