@@ -114,6 +114,7 @@
     }
     .layout-content-main{
         padding: 10px;
+        height:100%;
     }
     .layout-copy{
         text-align: center;

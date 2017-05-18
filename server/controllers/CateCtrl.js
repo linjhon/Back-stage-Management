@@ -37,9 +37,31 @@ function setTree(data,pid){
 }
 
 exports.findAll = function (req, res, next) {
-    Cate.find().then(data => {
-        res.json(data);
-        console.log(data)
+    //var type = req.params.type;
+    
+    Cate.find({},function(err,data){
+        var treeData=setTree(data,null);
+        res.json(treeData);
     })
 }
 
+
+exports.delete=function(req,res,next){
+    var id= req.params.id;
+    var ids=[];
+    Cate.findOne({_id:id},function(err,doc){
+        console.log(doc)
+        if(doc){
+            ids = [doc._id];
+            doc.getChildren().then(function(docs){
+                for(var i=0;i<docs.length;i++){
+                    ids.push(docs[i]._id);
+                }
+
+                Cate.remove({_id: {$in:ids}}).then(deleted=>{
+                    res.json({status:200,'message':'ok'})
+                })
+            })
+        }
+    })
+}
