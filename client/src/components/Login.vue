@@ -9,7 +9,7 @@
                     </Input>
                 </Form-item>
                 <Form-item prop="password">
-                    <Input type="password" v-model="formInline.password" placeholder="Password">
+                    <Input type="password" v-model="formInline.password" @keyup.enter="handleSubmit('formInline')" placeholder="Password">
                     <Icon type="ios-locked-outline" slot="prepend"></Icon>
                     </Input>
                 </Form-item>
@@ -22,6 +22,9 @@
 </template>
 
 <script>
+
+var CryptoJs = require('crypto-js')
+
 export default {
     data() {
         return {
@@ -54,7 +57,12 @@ export default {
                             this.$Message.error('账号或密码错误!');                            
                         }else if(res.data.code == '200'){
                             this.$Message.success('登陆成功!');
-                            this.login = true;
+                            var time = new Date().getTime() + 60*60*24*1000;
+                            console.log(time);
+                            var access_token = {token:res.data.token,time:time,name:res.data.name}
+                            console.log(access_token)
+                            localStorage.setItem('access_token',JSON.stringify(access_token));
+                            this.$store.state.login = true;
                         }
                     })
                 } else {

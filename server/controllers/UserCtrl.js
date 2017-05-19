@@ -132,7 +132,7 @@ exports.login = function (req, res, next) {
             var _token = jwt.sign({name:data[0].name,password:data[0].password},'backstage' , {
                 expiresIn: '1d'  // 24小时过期
             });
-            res.json({token:_token,login:'ok',code:'200'})
+            res.json({token:_token,name:data[0].name,login:'ok',code:'200'})
         }else{
             res.json({login:'error',code:'100'})
         }
@@ -148,7 +148,7 @@ exports.token = function(req,res,next){
             console.log(decode);  
             User.find({name:decode.name,password:decode.password}).then(data=>{//与数据库比对解密后的账号密码
                 if(data.length>0){//账号密码正确，返回304;
-                    res.json({login:'ok',code:'304'})                    
+                    res.json({login:'ok',data:{name:decode.name},time:decode.exp,code:'304'})                    
                 }else{//解密后的账号密码错误，提示
                     res.json({login:'error',code:'100'})                    
                 }

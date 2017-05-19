@@ -4,21 +4,9 @@
             <i-col :span="spanLeft" class="layout-menu-left">
                 <Menu :active-name="this.$route.name" theme="dark" @on-select="go" width="auto">
                     <div class="layout-logo-left"></div>
-                    <Menu-item name="user" :class="{'text-center':spanLeft!=5}">
-                        <Icon type="ios-navigate" :size="iconSize"></Icon>
-                        <span class="layout-text">用户管理</span>
-                    </Menu-item>
-                    <Menu-item name="article" :class="{'text-center':spanLeft!=5}">
-                        <Icon type="ios-keypad" :size="iconSize"></Icon>
-                        <span class="layout-text">文章管理</span>
-                    </Menu-item>
-                    <Menu-item name="classify" :class="{'text-center':spanLeft!=5}">
-                        <Icon type="ios-albums" :size="iconSize"></Icon>
-                        <span class="layout-text">分类管理</span>
-                    </Menu-item>
-                    <Menu-item name="comment" :class="{'text-center':spanLeft!=5}">
-                        <Icon type="ios-analytics" :size="iconSize"></Icon>
-                        <span class="layout-text">评论管理</span>
+                    <Menu-item v-for="(item,i) in menu" :key="i" :name="item.name" :class="{'text-center':spanLeft!=5}">
+                        <Icon :type="item.icon" :size="iconSize"></Icon>
+                        <span class="layout-text">{{item.title}}</span>
                     </Menu-item>
                 </Menu>
             </i-col>
@@ -28,17 +16,18 @@
                         <Icon type="navicon" size="32"></Icon>
                     </i-button>
                     <div class="layout-ceiling-main">
-                        span
-                        <a href="/login">注册登录</a> |
+                        <span v-if="login" class="user-name">欢迎回来，<a>{{this.$store.state.currentName}}</a> </span>
+                        <a v-else href="/login">注册登录</a> |
                         <a href="#">帮助中心</a> |
                         <a href="#">安全中心</a> |
-                        <a href="#">服务大厅</a>
+                        <a href="#">服务大厅</a> |
+                        <a href="javascript:;" @click="loginOut" >退出</a>
                     </div>
                 </div>
                 <div class="layout-breadcrumb">
                     <Breadcrumb>
                         <Breadcrumb-item href="/">首页</Breadcrumb-item>
-                        <Breadcrumb-item v-show="this.$route.name!='home'">{{this.$route.name}}</Breadcrumb-item>
+                        <Breadcrumb-item v-if="this.$route.name!='home'">{{this.$route.name}}</Breadcrumb-item>
                     </Breadcrumb>
                 </div>
                 <div class="layout-content">
@@ -55,21 +44,40 @@
     <Login  v-else ></Login>
 </template>
 <script>
-var CryptoJs = require('crypto-js')
-
 import Login from './Login.vue'
+import {mapState} from '../store'
+
 export default {
     data() {
         return {
-            login: false,
             spanLeft: 5,
-            spanRight: 19,             
+            spanRight: 19
         }
     },
     components:{
         Login
     },
     computed: {
+        menu(){
+            console.log(this.$store.state.menu)
+            return this.$store.state.menu;
+        },
+        name(){
+            var token = JSON.parse(localStorage.getItem('access_token')) || ''; 
+            return token.name;
+        },
+        login(){
+            var login = this.$store.state.login;
+            var token = JSON.parse(localStorage.getItem('access_token')) || '';
+            if(token.time){
+                if(token.time < new Date().getTime()){
+                    return login = false;
+                }else if(token.time > new Date().getTime()){
+                    return login = true;
+                }
+            }
+            return login = false;       
+        },
         iconSize() {
             return this.spanLeft === 5 ? 14 : 30;
         }
@@ -87,8 +95,27 @@ export default {
                 this.spanLeft = 5;
                 this.spanRight = 19;
             }
+        },
+        loginOut(){
+            localStorage.removeItem('access_token');
+            this.$store.state.login = false;
         }
     }
+    //, created:function(){
+    //     var token = localStorage.getItem('access_token') || '' ;
+    //     if(token){
+    //         this.$http.post('http://localhost:3000/users/token',{token:token}).then(res=>{
+    //             if(res.code === '500' ){
+    //                 this.$Message.error('登陆超时或无效！');
+    //                 this.$store.state.login = false;
+    //             }else if(res.code === '304' || res.code === '200' ){
+    //             this.$store.state.login = true;
+    //             }
+    //         })
+    //     }else{
+    //         this.$store.state.login = false;
+    //     }
+    // }
 }
 </script>
 
@@ -157,12 +184,22 @@ export default {
 }
 
 .layout-ceiling-main {
+    color:#ddd;
     float: right;
     margin-right: 15px;
 }
 
+.user-name{
+    margin-right:5px;
+}
+
+
 .layout-ceiling-main a {
+    margin:0 3px;
     color: #fff;
+}
+.user-name a{
+    color:#ffeb3b;
 }
 
 .layout-hide-text .layout-text {
