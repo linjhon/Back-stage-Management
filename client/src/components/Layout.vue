@@ -28,7 +28,8 @@
                         <Icon type="navicon" size="32"></Icon>
                     </i-button>
                     <div class="layout-ceiling-main">
-                        <a href="/login" @click="login">注册登录</a> |
+                        span
+                        <a href="/login">注册登录</a> |
                         <a href="#">帮助中心</a> |
                         <a href="#">安全中心</a> |
                         <a href="#">服务大厅</a>
@@ -51,49 +52,22 @@
             </i-col>
         </Row>
     </div>
-    <div v-else class="login">
-        <div class="login-box">
-            div  
-            <Form ref="formInline" :model="formInline" :rules="ruleInline">
-                <Form-item prop="user">
-                    <Input type="text" v-model="formInline.user" placeholder="Username">
-                        <Icon type="ios-person-outline" slot="prepend"></Icon>
-                    </Input>
-                </Form-item>
-                <Form-item prop="password">
-                    <Input type="password" v-model="formInline.password" placeholder="Password">
-                        <Icon type="ios-locked-outline" slot="prepend"></Icon>
-                    </Input>
-                </Form-item>
-                <Form-item>
-                    <Button type="primary" @click="handleSubmit('formInline')">登录</Button>
-                </Form-item>
-            </Form>
-        </div>         
-    </div>
+    <Login  v-else ></Login>
 </template>
 <script>
+var CryptoJs = require('crypto-js')
 
+import Login from './Login.vue'
 export default {
     data() {
         return {
             login: false,
             spanLeft: 5,
-            spanRight: 19,
-             formInline: {
-                    user: '',
-                    password: ''
-                },
-                ruleInline: {
-                    user: [
-                        { required: true, message: '请填写用户名', trigger: 'blur' }
-                    ],
-                    password: [
-                        { required: true, message: '请填写密码', trigger: 'blur' },
-                        { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
-                    ]
-                }
+            spanRight: 19,             
         }
+    },
+    components:{
+        Login
     },
     computed: {
         iconSize() {
@@ -113,39 +87,12 @@ export default {
                 this.spanLeft = 5;
                 this.spanRight = 19;
             }
-        },
-        handleSubmit(name) {
-            this.$refs[name].validate((valid) => {
-                if (valid) {
-                    this.$Message.success('提交成功!');
-                } else {
-                    this.$Message.error('表单验证失败!');
-                }
-            })
         }
     }
 }
 </script>
 
 <style scoped>
-.login{
-    height:100%;
-    background: #478de4;
-    position: relative;
-}
-
-.login-box{
-    border-radius: 5px;
-    position: absolute;
-    left:50%;
-    top:50%;    
-    transform: translate(-50%) translateY(-50%);
-    padding:30px;
-    background-color: #fff;
-    width:500px;
-    margin:0 auto;
-    box-shadow: 0 0 6px #666;
-}
 
 .layout {
     border: 1px solid #d7dde4;

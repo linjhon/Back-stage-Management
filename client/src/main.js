@@ -1,6 +1,7 @@
-import Vue from 'vue'
-import App from './App.vue'
+import Vue from 'vue';
+import App from './App.vue';
 import VueRouter from 'vue-router';
+import Vuex from 'vuex';
 import {routes} from './routes';
 import iView from 'iview';
 import axios from 'axios';
@@ -8,6 +9,7 @@ import Vueaxios from 'vue-axios';
 import './my-theme/index.less';
 
 Vue.use(iView);
+Vue.use(Vuex);
 Vue.use(VueRouter);
 
 Vue.use(Vueaxios,axios);

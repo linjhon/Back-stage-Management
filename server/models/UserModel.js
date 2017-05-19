@@ -8,6 +8,7 @@ var mongoosePaginate = require('mongoose-paginate'); //mongoose分页
 //创建User数据模型；
 var UserSchema = new Schema({
     name: String,
+    password:String,
     data: {
         type: Date
     },
