@@ -16,6 +16,7 @@ export default new Vuex.Store({
             {name:'comment',icon:'chatbubble-working',title:'评论管理'},
             {name:'ablum',icon:'images',title:'相册管理'},
             {name:'upload',icon:'upload',title:'上传管理'}
-        ]
+        ],
+        default:[]
     }
 })

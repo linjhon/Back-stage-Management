@@ -99,6 +99,7 @@ export default {
         loginOut(){
             localStorage.removeItem('access_token');
             this.$store.state.login = false;
+            location.reload();
         }
     }
     //, created:function(){
@@ -122,10 +123,8 @@ export default {
 <style scoped>
 
 .layout {
-    border: 1px solid #d7dde4;
     background: #eef1f7;
     position: relative;
-    border-radius: 4px;
     overflow: hidden;
     height: 100%;
 }

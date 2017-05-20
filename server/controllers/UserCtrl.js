@@ -51,6 +51,8 @@ exports.getData = function (req, res, next) {
 //删除单个;
 exports.delete = function (req, res, next) {
     var id = req.params.id;
+
+    console.log(req.params)
     User.findByIdAndRemove(id, function () {
         if (id) {
             res.json({

@@ -14,8 +14,16 @@
                 
                 <Modal
                     v-model="editTreeTitle"
-                    title="请输入您需要修改的内容">
-                    <Input v-model="formValidate.title"  placeholder="您需要修改的内容"></Input>
+                    :title="currentTitle"
+                    style="width:200px"
+                    >
+                    <div class="editbox">
+                        <Input v-model="formValidate.title"  placeholder="您需要修改的内容"></Input>
+                        <Select v-model="currentType" v-show="this.currentMode=='addTree'" placeholder="请选择一个分类" style="margin-top:15px;" >
+                            <Option v-for="item in typeList" :value="item.value" :key="item">{{ item.label }}</Option>
+                        </Select>
+                    </div>
+                    
                     <div slot="footer">
                          <Button type="primary" @click="setTreeData">提交</Button>
                     </div>
@@ -29,6 +37,8 @@
     export default {
         data () {
             return {
+                currentType:'',
+                currentTitle:'请输入您需要修改的内容',
                 currentMode:'',
                 editTreeTitle:false,
                 currentSelect:null,
@@ -43,8 +53,32 @@
                     disableCheckbox: true,
                     title: '分类管理',
                     type:'manage',
-                    children:[]
-                }]
+                    children:[
+
+                    ]
+                }],
+                typeList: [
+                    {
+                        value: 'article',
+                        label: '文章分类'
+                    },
+                    {
+                        value: 'comment',
+                        label: '评论分类'
+                    },
+                    {
+                        value: 'ablum',
+                        label: '相册分类'
+                    },
+                    {
+                        value: 'upload',
+                        label: '上传分类'
+                    },
+                    {
+                        value: 'other',
+                        label: '其他分类'
+                    }
+                ]
             }
         },
         methods:{
@@ -68,6 +102,8 @@
                     this.formValidate._id=this.currentSelect;
                     method = 'put';
                     url = `http://localhost:3000/cate/${this.currentSelect}`
+                }else{
+                    this.formValidate.type = this.currentType;
                 }
                 console.log(this.formValidate)
                 this.$http({
@@ -89,11 +125,13 @@
                     if(!_id){
                         this.$Message.warning('您未选中任何内容，添加子分类！')
                     }else{
+                        this.currentTitle = '添加子分类';
                         this.currentMode = 'addSubTree';
                         this.editTreeTitle = true; 
                     }
                 }else{
                     this.currentMode = 'addTree';
+                    this.currentTitle = '添加新分类';
                     this.editTreeTitle = true; 
                 }
             },
@@ -115,7 +153,7 @@
                 if(NodeArr[0]){
                     this.currentSelect = NodeArr[0]._id;
                     this.formValidate.title = NodeArr[0].title;
-                    this.formValidate.type = NodeArr[0].type;
+                    this.formValidate.type = NodeArr[0].type + '-1' ;
                 }else{
                     this.currentSelect = null;
                 }
@@ -133,6 +171,7 @@
                     // this.$Modal.info()
                     this.editTreeTitle = true;
                     this.currentMode = 'editTree';
+                    this.currentTitle = '修改分类名称';                    
                 }
             }
         },

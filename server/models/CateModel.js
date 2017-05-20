@@ -6,7 +6,7 @@ var Materialized = require('mongoose-materialized');
 
 //创建User数据模型；
 var CateSchema = new Schema({
-    type:Number,
+    type:String,
     title:String
 })
 
