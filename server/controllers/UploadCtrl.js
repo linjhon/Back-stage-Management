@@ -3,6 +3,7 @@ var path = require('path');
 var url = require('url');
 var querystring = require('querystring');
 const Upload = require('../models/UploadModel') //引入数据模型;
+var formidable = require('formidable');//文件附带的数据;
 
 
 var multer = require('multer');
@@ -30,6 +31,14 @@ var upload = multer({ storage: storage }).single('avatar');
 exports.upload = function (req, res, next) { //将路由操作分离出来;
     
     console.log('原始地址',req.originalUrl);
+    var form = new formidable.IncomingForm();
+    var type = ''
+    form.parse(req,function(err,fields,files){
+        console.log(fields);
+        if(fields.type){
+            type = fields.type;
+        }
+    })
 
     upload(req,res,function(err){
         if(err){
@@ -38,7 +47,7 @@ exports.upload = function (req, res, next) { //将路由操作分离出来;
         if(req.file){
             var url = 'http://localhost:8000/'+req.file.path;
             var name = req.file.filename;
-            ablum = new Upload({name:name,url:url})
+            ablum = new Upload({name:name,url:url,type:type})
             ablum.save().then(data=>{                
                 res.json({msg:'ok',code:'200',data:req.file})
             })
@@ -49,7 +58,11 @@ exports.upload = function (req, res, next) { //将路由操作分离出来;
 }
 
 exports.findAll = function (req, res, next) {
-    Upload.find().then(data => {
+    var type={}
+    if(req.params.type){
+        type = {type:req.params.type}
+    }
+    Upload.find(type).then(data => {
         res.json(data);
         console.log(data)
     })

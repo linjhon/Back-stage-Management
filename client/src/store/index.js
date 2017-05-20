@@ -17,6 +17,7 @@ export default new Vuex.Store({
             {name:'ablum',icon:'images',title:'相册管理'},
             {name:'upload',icon:'upload',title:'上传管理'}
         ],
-        default:[]
+        default:[],
+        currentType:''//当前选中分类类型;
     }
 })

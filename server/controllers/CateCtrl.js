@@ -37,13 +37,17 @@ function setTree(data,pid){
 }
 
 exports.findAll = function (req, res, next) {
-    //var type = req.params.type;
+    var type = {}
+    if(req.params.type){
+        type={'type':new RegExp(req.params.type,'i')}
+    }
     
-    Cate.find({},function(err,data){
+    Cate.find(type,function(err,data){
         var treeData=setTree(data,null);
         res.json(treeData);
     })
 }
+
 
 
 exports.delete=function(req,res,next){

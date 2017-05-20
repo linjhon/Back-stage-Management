@@ -11,6 +11,7 @@
     "debug": "~2.6.3",
     "ejs": "~2.5.6",
     "express": "~4.15.2",
+    "formidable": "^1.1.1",
     "jsonwebtoken": "^7.4.1",
     "mongoose": "^4.9.9",
     "mongoose-paginate": "^5.0.3",

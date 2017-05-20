@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 //创建User数据模型；
 var UploadSchema = new Schema({
     name:String,
+    type:String,
     url:String
 })
 
