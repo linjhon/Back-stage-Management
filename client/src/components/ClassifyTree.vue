@@ -37,8 +37,6 @@ export default {
 .tree {
   margin-left: 10px;
   border-right: 1px solid #e1e5f0;
-  float: left;
-  width: 200px;
   height: 100%;
 }
 </style>

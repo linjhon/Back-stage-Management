@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="user-box">
         <Row span="4" class="user-btn">
             <Button type="ghost" icon="plus-round" @click="addUser = true" >添加用户</Button>
             <Modal v-model="addUser" title="添加用户" >
@@ -42,8 +42,12 @@
                 </Form>
             </Modal>
             <Button type="ghost" icon="minus-round">删除用户</Button>    
+            <Input icon="search" placeholder="请输入..." v-model="filter.name" style="width:200px;"></Input>
+            <Button type="ghost" @click="getData">搜索数据</Button>
         </Row>
         <Table border  :columns="columns" :data="list"></Table>
+        <Page :total="filter.total" class="page" :current="filter.page" :page-size="filter.limit" @on-change="changePage" size="small" show-elevator show-sizer></Page>
+
     </div>
 </template>
 
@@ -155,8 +159,16 @@
 </script>
 
 <style scoped>  
-
+    .user-box{
+        height: 100%;
+        position: relative;
+    }
     .user-btn{
         margin-bottom:10px;
+    }
+    .page{
+        position: absolute;
+        right:10px;
+        bottom:10px;
     }
 </style>

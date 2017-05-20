@@ -1,12 +1,12 @@
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 
-const User = require('../models/UserModel') //引入数据模型;
+const Arctile = require('../models/ArticleModel') //引入数据模型;
 
 exports.create = function (req, res, next) { //将路由操作分离出来;
-    const user = new User(req.body);
+    const arctile = new Arctile(req.body);
     console.log(req.body)
-    user.save().then(data => {
+    arctile.save().then(data => {
         if (data) {
             res.json(data)
         } else {
@@ -19,7 +19,7 @@ exports.create = function (req, res, next) { //将路由操作分离出来;
 
 
 exports.findAll = function (req, res, next) {
-    User.find().then(data => {
+    Arctile.find().then(data => {
         res.json(data);
         console.log(data)
     })
@@ -30,13 +30,13 @@ exports.getData = function (req, res, next) {
     var page = req.body.page ? parseInt(req.body.page) : 1; //默认1页十个数据
     var limit = req.body.limit ? parseInt(req.body.limit) : 10; //默认首页;
     var keywords = [];
-    var name = req.body.name
-    if (name != null && name.trim().length > 0) {
+    var title = req.body.title
+    if (title != null && title.trim().length > 0) {
         keywords = {
-            "name": new RegExp(name, 'i') //模糊搜索
+            "title": new RegExp(title, 'i') //模糊搜索
         }
     }
-    User.paginate(keywords, {
+    Arctile.paginate(keywords, {
         page: page,
         limit: limit
     }, function (err, result) {
@@ -53,7 +53,7 @@ exports.delete = function (req, res, next) {
     var id = req.params.id;
 
     console.log(req.params)
-    User.findByIdAndRemove(id, function () {
+    Arctile.findByIdAndRemove(id, function () {
         if (id) {
             res.json({
                 status: 200,
@@ -73,7 +73,7 @@ exports.delete = function (req, res, next) {
 exports.deleteMore = function (req, res, next) {
     var ids = req.body.ids;
     console.log(ids)
-    User.remove({
+    Arctile.remove({
         _id: {
             $in: ids
         }
@@ -88,7 +88,7 @@ exports.deleteMore = function (req, res, next) {
 // 更新;
 exports.update = function (req, res, next) {
     var id = req.params.id;
-    User.findByIdAndUpdate(id, {
+    Arctile.findByIdAndUpdate(id, {
         $set: req.body
     }, {
         new: false
@@ -128,7 +128,7 @@ exports.update = function (req, res, next) {
 
 exports.login = function (req, res, next) {    
     // var name= req.body.name;
-    User.find(req.body).then(data=>{
+    Arctile.find(req.body).then(data=>{
         console.log(data[0])
         if(data.length>0){//账号密码验证;
             var _token = jwt.sign({name:data[0].name,password:data[0].password},'backstage' , {
@@ -148,7 +148,7 @@ exports.token = function(req,res,next){
             res.json({login:'err',err:err.message,code:'500'})
         } else {
             console.log(decode);  
-            User.find({name:decode.name,password:decode.password}).then(data=>{//与数据库比对解密后的账号密码
+            Arctile.find({name:decode.name,password:decode.password}).then(data=>{//与数据库比对解密后的账号密码
                 if(data.length>0){//账号密码正确，返回304;
                     res.json({login:'ok',data:{name:decode.name},time:decode.exp,code:'304'})                    
                 }else{//解密后的账号密码错误，提示

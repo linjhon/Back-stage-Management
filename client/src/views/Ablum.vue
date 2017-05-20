@@ -1,5 +1,5 @@
 <template>
-    <Row>
+    <Row :gutter="10">
         <Col span="8">
         <ClassifyTree type="ablum"></ClassifyTree>
         </Col>

@@ -8,8 +8,6 @@
 
 <script>
 import ClassifyTree from '../components/ClassifyTree.vue'
-
-
     export default {
         components:{
             ClassifyTree
