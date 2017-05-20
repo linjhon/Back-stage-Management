@@ -17,6 +17,7 @@ export default {
   created: function () {
     this.$http.get(`http://localhost:3000/cate/data/${this.type}`).then(res => {
       console.log(res)
+      res.data[0].expand = true;
       this.baseData = res.data;
     })
   },

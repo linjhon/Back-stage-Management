@@ -13,6 +13,7 @@ var users = require('./routes/users');
 var cate = require('./routes/cate');
 var upload = require('./routes/upload');
 var article = require('./routes/article');
+var comment = require('./routes/comment');
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/user'); //连接地址
@@ -50,6 +51,7 @@ app.use('/users', users);
 app.use('/cate', cate);
 app.use('/upload', upload);
 app.use('/article', article);
+app.use('/comment', comment);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

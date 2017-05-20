@@ -6,7 +6,7 @@ var mongoosePaginate = require('mongoose-paginate'); //mongoose分页
 
 
 //创建User数据模型；
-var ArticleSchema = new Schema({
+var CommentSchema = new Schema({
     title: String,
     author:String,
     content:String,
@@ -17,5 +17,5 @@ var ArticleSchema = new Schema({
 })
 
 
-ArticleSchema.plugin(mongoosePaginate);//分页处理
-module.exports = mongoose.model('Article',ArticleSchema);//暴露User数据模型;
+CommentSchema.plugin(mongoosePaginate);//分页处理
+module.exports = mongoose.model('Comment',CommentSchema);//暴露User数据模型;
