@@ -26,7 +26,7 @@ function readImg(path, res) {
                     res.end(err);
                 } else {
                     // 当文件可被读取时，输出文本流
-                    response.writeHead(200, {
+                    res.writeHead(200, {
                         'Content-Type': 'image/png'
                     });
                     res.write(file, "binary");
