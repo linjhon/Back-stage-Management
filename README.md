@@ -27,11 +27,11 @@ webpack
 **数据库**
 MongoDB 
 
-#项目预览
+# 项目预览
 
 本地需要安装mongodb数据库
 
-##客户端client
+## 客户端client
 
 ```
 //打开目录
@@ -56,10 +56,13 @@ npm run build
 
 //开启服务器
  npm run start 
+
+//开启静态服务器
+ npm run static
 ```
 
 
-##功能
+## 功能
 
 
 - [x] 用户、文章、评论实现增删改查；
@@ -164,6 +167,6 @@ npm run build
 ```
 
 
-##项目地址
+## 项目地址
 
 [Github地址](https://github.com/linqiang007/Back-stage-Management)
